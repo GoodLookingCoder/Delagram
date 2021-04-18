@@ -1,9 +1,28 @@
-import React from 'react'
+import {useContext} from 'react'
+import {Link, useHistory} from "react-router-dom"
+
+import {Store} from "../../context/context"
+
+import {auth} from "../../firebase/firebase"
 
 const HomePage = () => {
+    const { state } = useContext(Store)
+    const history = useHistory()
+
+    const handleLogOut = async () => {
+        try{
+            await auth.signOut()
+            history.push("/signin")
+        } catch(error){
+            console.log(error)
+        }
+    }
+
     return (
-        <div>
-            Welcome to Delagram!!!
+        <div className="home-page">
+            Welcome to Delagram  {state.currentUser.email}!!!
+
+            <span onClick={handleLogOut}>Log Out</span>
         </div>
     )
 }

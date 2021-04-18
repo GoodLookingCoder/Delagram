@@ -1,5 +1,5 @@
 import {useState, useContext} from 'react'
-import {Link} from "react-router-dom"
+import {Link, useHistory} from "react-router-dom"
 
 import {Store} from "../../context/context"
 import {auth} from "../../firebase/firebase"
@@ -19,6 +19,7 @@ const SignUp = () => {
     })
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+    const history = useHistory()
 
     const handleChange = e => {
         const{name, value} = e.target
@@ -38,6 +39,7 @@ const SignUp = () => {
             setError("")
             setLoading(true)
             await auth.createUserWithEmailAndPassword(email, password)
+            history.push("/")
         }catch(error){
             setError("Failed to create an account")
             setLoading(false)

@@ -1,7 +1,6 @@
 import {useState, useContext} from 'react'
-import {Link} from "react-router-dom"
+import {Link, useHistory} from "react-router-dom"
 
-import {Store} from "../../context/context"
 import {auth} from "../../firebase/firebase"
 
 import FormInput from "../form-input/form-input" 
@@ -10,14 +9,13 @@ import CustomButton from "../custom-button/custom-button"
 import "./signin.scss"
 
 const SignIn = () => {
-    const {state, setState} = useContext(Store)
-
     const [signInValues, setSignInValues] = useState({
         email: "",
         password: ""
     })
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+    const history = useHistory()
 
     const handleChange = e => {
         const{name, value} = e.target
@@ -37,13 +35,13 @@ const SignIn = () => {
             setError("")
             setLoading(true)
             await auth.signInWithEmailAndPassword(email, password)
+            setLoading(false)
+            history.push("/")
         }catch(error){
             setError("Failed to sign in")
             setLoading(false)
-            console.log("error")
+            console.log(error)
         }
-        
-        setLoading(false)
     }
 
     return (<>
