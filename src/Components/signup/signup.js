@@ -14,7 +14,7 @@ const SignUp = () => {
 
     const [signUpValues, setSignUpValues] = useState({
         email: "",
-        userName: "",
+        name: "",
         password: ""
     })
     const [error, setError] = useState("")
@@ -39,14 +39,13 @@ const SignUp = () => {
             setError("")
             setLoading(true)
             await auth.createUserWithEmailAndPassword(email, password)
+            setLoading(false)
             history.push("/")
         }catch(error){
             setError("Failed to create an account")
             setLoading(false)
             console.log("error")
         }
-        
-        setLoading(false)
     }
 
     return (<>
@@ -56,21 +55,21 @@ const SignUp = () => {
 
             <form className="sign-up-form" onSubmit={handleSubmit}>
                 <FormInput
+                    type= "text"
+                    name="name"
+                    label="User Name"
+                    value={signUpValues.name}
+                    handleChange={handleChange}
+                    required
+                />
+                <FormInput
                     type= "email"
                     name="email"
                     label="Email"
                     value={signUpValues.email}
                     handleChange={handleChange}
                     required
-                />                
-                <FormInput
-                    type= "text"
-                    name="userName"
-                    label="User Name"
-                    value={signUpValues.userName}
-                    handleChange={handleChange}
-                    required
-                />
+                />       
                 <FormInput
                     type= "password"
                     name="password"
