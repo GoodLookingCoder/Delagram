@@ -2,9 +2,9 @@ import React from 'react'
 
 import "./custom-button.scss"
 
-const CustomButton = ({children}) => {
+const CustomButton = ({children, disabled}) => {
     return (
-        <button>
+        <button disabled={disabled}>
             {children}
         </button>
     )

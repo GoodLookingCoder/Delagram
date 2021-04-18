@@ -16,3 +16,16 @@
     margin: 0 auto 10px auto;
     text-align: center;
 }
+
+.login-link{
+    width: 380px;
+    margin: 10px auto 0 auto;
+    text-align: center;
+    border: 1px solid #80808073;
+    background-color: white;
+    padding: 20px 0;
+
+    span{
+        color: #0095f6
+    }
+}

@@ -1,4 +1,7 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
+
+import {Store} from "../../context/context"
+import {auth} from "../../firebase/firebase"
 
 import FormInput from "../form-input/form-input" 
 import CustomButton from "../custom-button/custom-button"
@@ -6,11 +9,15 @@ import CustomButton from "../custom-button/custom-button"
 import "./signup.scss"
 
 const SignUp = () => {
+    const {state, setState} = useContext(Store)
+
     const [signUpValues, setSignUpValues] = useState({
         email: "",
         userName: "",
         password: ""
     })
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const handleChange = e => {
         const{name, value} = e.target
@@ -21,12 +28,30 @@ const SignUp = () => {
         })
     }
 
-    return (
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log("submit in action")
+        const {email, userName, password} = signUpValues
+
+        try{
+            setError("")
+            setLoading(true)
+            await auth.createUserWithEmailAndPassword(email, password)
+        }catch(error){
+            setError("Failed to create an account")
+            setLoading(false)
+            console.log("error")
+        }
+        
+        setLoading(false)
+    }
+
+    return (<>
         <div className="sign-up-container">
             <h1 className="sign-up-title">Delagram</h1>
             <span>Registrate para ver fotos y videos de tus amigos</span>
 
-            <form className="sign-up-form">
+            <form className="sign-up-form" onSubmit={handleSubmit}>
                 <FormInput
                     type= "email"
                     name="email"
@@ -51,12 +76,15 @@ const SignUp = () => {
                     handleChange={handleChange}
                     required
                 />
-                <CustomButton>
+                <CustomButton disabled={loading} type="submit">
                     Registrate
                 </CustomButton>
             </form>
         </div>
-    )
+        <div className="login-link">
+            <p>Already have an account? <span className="link">Log In</span></p>
+        </div>
+    </>)
 }
 
 export default SignUp

@@ -1,13 +1,13 @@
-
+import Context from "./context/context"
 import SignUp from "./Components/signup/signup"
 
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <Context>
       <SignUp/>
-    </div>
+    </Context>
   );
 }
 
