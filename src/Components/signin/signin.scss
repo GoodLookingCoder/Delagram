@@ -1,4 +1,4 @@
-.sign-up-container{
+.sign-in-container{
     display: flex;
     flex-direction: column;
     width: 380px;
@@ -12,12 +12,12 @@
     }
 }
 
-.sign-up-title{
+.sign-in-title{
     margin: 0 auto 10px auto;
     text-align: center;
 }
 
-.login-link{
+.signup-link{
     width: 380px;
     margin: 10px auto 0 auto;
     text-align: center;

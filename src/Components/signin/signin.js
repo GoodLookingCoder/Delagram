@@ -7,14 +7,13 @@ import {auth} from "../../firebase/firebase"
 import FormInput from "../form-input/form-input" 
 import CustomButton from "../custom-button/custom-button"
 
-import "./signup.scss"
+import "./signin.scss"
 
-const SignUp = () => {
+const SignIn = () => {
     const {state, setState} = useContext(Store)
 
-    const [signUpValues, setSignUpValues] = useState({
+    const [signInValues, setSignInValues] = useState({
         email: "",
-        userName: "",
         password: ""
     })
     const [error, setError] = useState("")
@@ -23,8 +22,8 @@ const SignUp = () => {
     const handleChange = e => {
         const{name, value} = e.target
 
-        setSignUpValues({
-            ...signUpValues,
+        setSignInValues({
+            ...signInValues,
             [name]: value
         })
     }
@@ -32,14 +31,14 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const {email, password} = signUpValues
+        const {email, password} = signInValues
 
         try{
             setError("")
             setLoading(true)
-            await auth.createUserWithEmailAndPassword(email, password)
+            await auth.signInWithEmailAndPassword(email, password)
         }catch(error){
-            setError("Failed to create an account")
+            setError("Failed to sign in")
             setLoading(false)
             console.log("error")
         }
@@ -48,44 +47,35 @@ const SignUp = () => {
     }
 
     return (<>
-        <div className="sign-up-container">
-            <h1 className="sign-up-title">Delagram</h1>
-            <span>Registrate para ver fotos y videos de tus amigos</span>
+        <div className="sign-in-container">
+            <h1 className="sign-in-title">Delagram</h1>
 
-            <form className="sign-up-form" onSubmit={handleSubmit}>
+            <form className="sign-in-form" onSubmit={handleSubmit}>
                 <FormInput
                     type= "email"
                     name="email"
                     label="Email"
-                    value={signUpValues.email}
+                    value={signInValues.email}
                     handleChange={handleChange}
                     required
                 />                
                 <FormInput
-                    type= "text"
-                    name="userName"
-                    label="User Name"
-                    value={signUpValues.userName}
-                    handleChange={handleChange}
-                    required
-                />
-                <FormInput
                     type= "password"
                     name="password"
                     label="Password"
-                    value={signUpValues.password}
+                    value={signInValues.password}
                     handleChange={handleChange}
                     required
                 />
                 <CustomButton disabled={loading} type="submit">
-                    Registrate
+                    Log In
                 </CustomButton>
             </form>
         </div>
-        <div className="login-link">
-            <p>Already have an account? <Link to="/signin" className="link">Log In</Link></p>
+        <div className="signup-link">
+            <p>Need an account? <Link className="link" to="/signup">Sign Up</Link></p>
         </div>
     </>)
 }
 
-export default SignUp
+export default SignIn
