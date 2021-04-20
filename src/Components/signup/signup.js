@@ -44,9 +44,7 @@ const SignUp = () => {
             })
             await auth.signOut();
             await auth.updateCurrentUser(user);
-            console.log(user)
             setLoading(false)
-            history.push("/")
         }catch(error){
             setError("Failed to create an account")
             setLoading(false)

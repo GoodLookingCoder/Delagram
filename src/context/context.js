@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import {auth, createUserProfileDocument} from "../firebase/firebase"
+import {useHistory} from "react-router-dom"
 
 export const Store = createContext();
 
@@ -8,6 +9,7 @@ const Context = ({children}) => {
 		currentUser: null,
         loading: true
 	};
+    const history = useHistory()
 
     const [state, setState] = useState(initialState);
 
@@ -22,6 +24,7 @@ const Context = ({children}) => {
                         loading: false,
                         currentUser: {...snapShot.data()}
                   })
+                  history.push("/")
                 })
             }else {
                 setState({
