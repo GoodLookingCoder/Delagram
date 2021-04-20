@@ -1,5 +1,5 @@
 import {useState, useContext} from 'react'
-import {Link, useHistory} from "react-router-dom"
+import {Link} from "react-router-dom"
 
 import {auth} from "../../firebase/firebase"
 
@@ -15,7 +15,6 @@ const SignIn = () => {
     })
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
-    const history = useHistory()
 
     const handleChange = e => {
         const{name, value} = e.target
@@ -36,7 +35,6 @@ const SignIn = () => {
             setLoading(true)
             await auth.signInWithEmailAndPassword(email, password)
             setLoading(false)
-            history.push("/")
         }catch(error){
             setError("Failed to sign in")
             setLoading(false)

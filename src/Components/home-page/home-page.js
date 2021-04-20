@@ -1,5 +1,5 @@
 import {useContext} from 'react'
-import {Link, useHistory} from "react-router-dom"
+import {useHistory} from "react-router-dom"
 
 import {Store} from "../../context/context"
 

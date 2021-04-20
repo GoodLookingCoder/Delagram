@@ -22,7 +22,10 @@ const Context = ({children}) => {
                     setState({
                         ...state,
                         loading: false,
-                        currentUser: {...snapShot.data()}
+                        currentUser: {
+                            ...snapShot.data(),
+                            name: user.displayName
+                        }
                   })
                   history.push("/")
                 })

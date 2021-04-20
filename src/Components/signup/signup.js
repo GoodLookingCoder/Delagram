@@ -1,5 +1,5 @@
 import {useState, useContext} from 'react'
-import {Link, useHistory} from "react-router-dom"
+import {Link} from "react-router-dom"
 
 import {Store} from "../../context/context"
 import {auth} from "../../firebase/firebase"
@@ -10,16 +10,13 @@ import CustomButton from "../custom-button/custom-button"
 import "./signup.scss"
 
 const SignUp = () => {
-    const {state, setState} = useContext(Store)
-
     const [signUpValues, setSignUpValues] = useState({
         email: "",
-        uName: "",
+        name: "",
         password: ""
     })
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
-    const history = useHistory()
 
     const handleChange = e => {
         const{name, value} = e.target
@@ -40,7 +37,7 @@ const SignUp = () => {
             setLoading(true)
             const {user} = await auth.createUserWithEmailAndPassword(email, password)
             await user.updateProfile({
-                displayName: signUpValues.uName
+                displayName: signUpValues.name
             })
             await auth.signOut();
             await auth.updateCurrentUser(user);
@@ -48,7 +45,7 @@ const SignUp = () => {
         }catch(error){
             setError("Failed to create an account")
             setLoading(false)
-            console.log("error")
+            console.log(error)
         }
     }
 
@@ -60,9 +57,9 @@ const SignUp = () => {
             <form className="sign-up-form" onSubmit={handleSubmit}>
                 <FormInput
                     type= "text"
-                    name="uName"
+                    name="name"
                     label="User Name"
-                    value={signUpValues.uName}
+                    value={signUpValues.name}
                     handleChange={handleChange}
                     required
                 />
