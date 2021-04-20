@@ -14,7 +14,7 @@ const SignUp = () => {
 
     const [signUpValues, setSignUpValues] = useState({
         email: "",
-        name: "",
+        uName: "",
         password: ""
     })
     const [error, setError] = useState("")
@@ -38,7 +38,13 @@ const SignUp = () => {
         try{
             setError("")
             setLoading(true)
-            await auth.createUserWithEmailAndPassword(email, password)
+            const {user} = await auth.createUserWithEmailAndPassword(email, password)
+            await user.updateProfile({
+                displayName: signUpValues.uName
+            })
+            await auth.signOut();
+            await auth.updateCurrentUser(user);
+            console.log(user)
             setLoading(false)
             history.push("/")
         }catch(error){
@@ -56,9 +62,9 @@ const SignUp = () => {
             <form className="sign-up-form" onSubmit={handleSubmit}>
                 <FormInput
                     type= "text"
-                    name="name"
+                    name="uName"
                     label="User Name"
-                    value={signUpValues.name}
+                    value={signUpValues.uName}
                     handleChange={handleChange}
                     required
                 />

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import {auth} from "../firebase/firebase"
+import {auth, createUserProfileDocument} from "../firebase/firebase"
 
 export const Store = createContext();
 
@@ -12,12 +12,24 @@ const Context = ({children}) => {
     const [state, setState] = useState(initialState);
 
     useEffect(()=>{
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            setState({
-                ...state, 
-                currentUser: user,
-                loading: false
-            })
+        const unsubscribe = auth.onAuthStateChanged(async user => {
+            console.log("activated")
+            if(user && user.displayName){
+                const userRef = await createUserProfileDocument(user)
+                userRef.onSnapshot(snapShot => {
+                    setState({
+                        ...state,
+                        loading: false,
+                        currentUser: {...snapShot.data()}
+                  })
+                })
+            }else {
+                setState({
+                    ...state,
+                    currentUser: null,
+                    loading: false
+                })
+            }
         })
 
         return unsubscribe
